@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="webjars/angular-material/1.1.0-rc.5/angular-material.css">
+<link rel="stylesheet" href="demo.css">
+</head>
+<body style="width: 100%; background-color: yellow;">
+	<h1>SSE</h1>
+	<span id = "sse" style="min-height: 400; width: 30%; background-color: cyan;display: inline-block;">SSE<br/></span>
+	<span id = "sseObj" style="min-height: 400; width: 30%; background-color: cyan;display: inline-block;">SSEObj<br/></span>
+	<span id = "sseType" style="min-height: 400; width: 30%; background-color: cyan;display: inline-block;">SSEType<br/></span>
+</body>
+<script type="text/javascript">
+if(typeof(EventSource) !== "undefined") {
+	var sseSource = new EventSource("sse");
+	sseSource.onmessage = function(event) {
+		document.getElementById('sse').innerHTML += event.data + "<br>";
+	    console.log('message:' + event.data);
+	};
+	sseSource.onopen = function(event) {
+	    console.log('open connection' + event);
+	};
+	sseSource.onerror = function(event) {
+	    console.error('error connection' + event);
+	    switch( event.target.readyState ){
+        // if reconnecting
+        case EventSource.CONNECTING:
+            console.log('Reconnecting...');
+            break;
+        // if error was fatal
+        case EventSource.CLOSED:
+            console.log('Connection failed. Will not retry.');
+            break;
+    	}
+	};
+	var sseObj = new EventSource("sse-obj");
+	sseObj.onmessage = function(event) {
+		document.getElementById('sseObj').innerHTML += event.data + "<br>";
+	    console.log('message:' + event.data);
+	};
+	sseObj.onopen = function(event) {
+	    console.log('open connection' + event);
+	};
+	sseObj.onerror = function(event) {
+	    console.error('error connection' + event);
+	    switch( event.target.readyState ){
+        // if reconnecting
+        case EventSource.CONNECTING:
+            console.log('Reconnecting...');
+            break;
+        // if error was fatal
+        case EventSource.CLOSED:
+            console.log('Connection failed. Will not retry.');
+            break;
+    	}
+	};
+	var sseType = new EventSource("sse-type");
+	sseType.onmessage = function(event) {
+	    console.log('message with type:' + event.data);
+	};
+	sseType.addEventListener('event1', function(event){
+		document.getElementById('sseType').innerHTML += event.data + "<br>";
+	    console.log('message:' + event.data);
+	}, false);
+	sseType.onopen = function(event) {
+	    console.log('open connection' + event);
+	};
+	sseType.onerror = function(event) {
+	    console.error('error connection' + event);
+	    switch( event.target.readyState ){
+        // if reconnecting
+        case EventSource.CONNECTING:
+            console.log('Reconnecting...');
+            break;
+        // if error was fatal
+        case EventSource.CLOSED:
+            console.log('Connection failed. Will not retry.');
+            break;
+    	}
+	};
+} else {
+    console.log('Sorry! No server-sent events supported in your browser...');
+}
+</script>
+</html>

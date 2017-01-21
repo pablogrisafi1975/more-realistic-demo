@@ -1,0 +1,8 @@
+<html>
+	<body>
+		<%= user %><br/>
+		<% for(var i = 0; i < 5; i++){ %>
+		<%= i + '<br/>'                %>
+		<% }                           %>
+	</body>
+</html>
